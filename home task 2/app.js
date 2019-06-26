@@ -1,7 +1,10 @@
 "use strict";
 
 let money = '', message = '', time = '';
-
+let optExpQuestion = 'Введите необязательную статью расходов в этом месяце',
+    expValue = 'Во сколько обойдется?',
+    expQuestion = 'Введите обязательную статью расходов в этом месяце';
+    
 let appData = {
         budget: money,
         date: time,
@@ -23,7 +26,6 @@ alert(dailyBudgetSum());
 
 checkSavings();
 
-
 function colectData() {
     money = +prompt('Укажите ваш месяный бюджет', '');
 
@@ -32,13 +34,7 @@ function colectData() {
     }
     time = prompt('Введите дату в формате YYYY-MM-DD', '');
 
-    for (let i = 0; i < 2; i++) {
-        let reason = prompt('Введите обязательную статью расходов в этом месяце');
-        let costs = +prompt('Во сколько обойдется?');
-        if( (typeof(costs)) != null && (typeof(reason)) === 'string' && (reason.length < 80) && (typeof(costs) != null )) {
-        appData.expenses[reason] = costs;
-        }
-    }
+    Expenses(2, appData.expenses, expQuestion, expValue );
 
     appData.dalyBuget = money;
 };
@@ -68,7 +64,7 @@ function checkSavings() {
         savingSum = +prompt('Введите ссуму сбережений','');
 
         while(isNaN(savingSum) || savingSum == '' || savingSum == null){
-            savingSum = +prompt('Укажите ваш месяный бюджет', '');
+            savingSum = +prompt('Укажите ваш месячный бюджет', '');
         }
         while(isNaN(savingRate) || savingRate == '' || savingRate == null){
             savingRate = +prompt('Укажите процентную ставку (%/год)', '');
@@ -83,15 +79,24 @@ function monthlySavingIncome(dep,rate) {
     let savingRate = rate;
     let savingDeposit = dep;
     appData.monthIncome = (savingRate/100/12) * savingDeposit;
-    return monthIncome;
+    return appData.monthIncome;
 }
 
-function optionalExpenses() {
-    for (let i = 0; i < 3; i++) {
-        let reason = prompt('Введите необязательную статью расходов в этом месяце');
-        let costs = +prompt('Во сколько обойдется?');
+Expenses(3, appData.optionalExpenses, optExpQuestion, expValue );
+
+function Expenses(iterations, objectProperty, optQ,optV) {
+
+    let n = iterations;
+    for (let i = 0; i < n; i++) {
+        let reason = prompt(optQ, '');
+        let costs = +prompt(optV,'');
         if( (typeof(costs)) != null && (typeof(reason)) === 'string' && (reason.length < 80) && (typeof(costs) != null )) {
-        appData.optionalExpenses[reason] = costs;
+        objectProperty[reason] = costs;
         }
+        console.log(n);
+        console.log(reason);
+        console.log(costs);
+        console.log(objectProperty);
     }
+    
 }

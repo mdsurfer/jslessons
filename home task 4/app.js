@@ -103,3 +103,5 @@ for(let key in appData) {
 
 //appData.Expenses(3, appData.optionalExpenses, optExpQuestion, expValue );
 
+let x = 5;
+console.log(x++);
